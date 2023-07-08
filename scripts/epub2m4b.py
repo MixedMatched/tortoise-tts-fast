@@ -389,7 +389,7 @@ if __name__ == '__main__':
     selected_voices = parse_voice_str(args.general.voice, all_voices)
     voice_generator = voice_loader(selected_voices, extra_voice_dirs)
 
-    book = epub.read_epub(args.general.epub[0])
+    book = epub.read_epub(args.general.epub_path)
 
     output_dir = validate_output_dir(
         args.output.output_dir, selected_voices, args.multi_output.candidates
