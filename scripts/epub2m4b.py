@@ -489,7 +489,7 @@ if __name__ == '__main__':
             self.voice = voice
             self.voice_samples = voice_samples
             self.conditioning_latents = conditioning_latents
-        def handle_endtag(self, tag, attrs):
+        def handle_endtag(self, tag):
             if tag == "p" and not self.current_text.strip() == "":
                 self.id += 1
                 texts = self.current_text.split(".")
