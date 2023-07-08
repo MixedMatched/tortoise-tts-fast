@@ -490,10 +490,12 @@ if __name__ == '__main__':
             self.voice_samples = voice_samples
             self.conditioning_latents = conditioning_latents
         def handle_starttag(self, tag, attrs):
-            if tag == "p":
+            if tag == "p" and not self.current_text == "":
                 self.id += 1
                 texts = self.current_text.split(".")
+                self.current_text = ""
                 for text_idx, text in enumerate(texts):
+                    text = text + "."
                     clip_name = f'{"-".join(voice)}_{text_idx:02d}_{self.id}'
                     if args.output.output_dir:
                         first_clip = os.path.join(args.output.output_dir, f"{clip_name}_00.wav")
