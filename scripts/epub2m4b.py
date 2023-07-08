@@ -470,7 +470,7 @@ if __name__ == '__main__':
             chapter_indices.append(int(chapter) - 1)
 
     current_chapter_audio = []
-    (voice, voice_samples, conditioning_latents) = voice_generator[0]
+    (voice, voice_samples, conditioning_latents) = next(voice_generator)
 
     nlp = spacy.load("en_core_web_sm")
 
