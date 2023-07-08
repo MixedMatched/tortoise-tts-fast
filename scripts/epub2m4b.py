@@ -181,7 +181,7 @@ def process_text(text, nlp):
 class General:
     """General options"""
 
-    epub_path: str = field(positional=True, nargs="*")
+    epub_path: str = field(positional=True)
     """Path to the epub file to be read."""
 
     voice: str = field(default="random", alias=["-v"])
