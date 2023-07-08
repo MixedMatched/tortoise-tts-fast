@@ -490,11 +490,13 @@ if __name__ == '__main__':
             self.voice_samples = voice_samples
             self.conditioning_latents = conditioning_latents
         def handle_starttag(self, tag, attrs):
-            if tag == "p" and not self.current_text == "":
+            if tag == "p" and not self.current_text.strip() == "":
                 self.id += 1
                 texts = self.current_text.split(".")
                 self.current_text = ""
                 for text_idx, text in enumerate(texts):
+                    if text.strip() == "":
+                        continue
                     text = text + "."
                     clip_name = f'{"-".join(voice)}_{text_idx:02d}_{self.id}'
                     if args.output.output_dir:
@@ -527,6 +529,7 @@ if __name__ == '__main__':
             data = process_text(data, self.nlp)
             self.current_text += data
 
+    chapter_number = 1
     for (i, item) in enumerate(items):
         if isinstance(item, epub.EpubHtml) and i in chapter_indices:
             print(item.get_name())
@@ -536,7 +539,7 @@ if __name__ == '__main__':
 
             audio = torch.cat(current_chapter_audio, dim=-1)
             if args.output.output_dir:
-                filename = f'{"-".join(voice)}_Chapter{i}_combined.wav'
+                filename = f'{"-".join(voice)}_Chapter{chapter_number}_combined.wav'
                 save_gen_with_voicefix(
                     audio,
                     os.path.join(args.output.output_dir, filename),
@@ -551,5 +554,8 @@ if __name__ == '__main__':
                 f = tempfile.NamedTemporaryFile(suffix=".wav", delete=True)
                 torchaudio.save(f.name, audio, 24000)
                 pydub.playback.play(pydub.AudioSegment.from_wav(f.name))
+
+            current_chapter_audio = []
+            chapter_number += 1
 
     
